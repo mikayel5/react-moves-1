@@ -17,27 +17,27 @@ import ReactDOM from "react-dom";
 // export default Timer;
 
 // function Timer(props) {
-//   if (this.props.timerLeft == 0) {
+//   if (props.timerLeft == 0) {
 //     document.getElementById("end-of-time").play();
 //   }
-//   if (this.props.timerLeft == null || this.props.timerLeft == 0) {
+//   if (props.timerLeft == null || props.timerLeft == 0) {
 //     return <div />;
 //   }
 
-//   return <h1>Time left:{this.props.timerLeft}</h1>;
+//   return <h1>Time left:{props.timerLeft}</h1>;
 // }
 
 // export default Timer;
-//hello
+
 const Timer = (props) => {
-  if (this.props.timerLeft == 0) {
+  if (props.timerLeft == 0) {
     document.getElementById("end-of-time").play();
   }
-  if (this.props.timerLeft == null || this.props.timerLeft == 0) {
+  if (props.timerLeft == null || props.timerLeft == 0) {
     return <div />;
   }
 
-  return <h1>Time left:{this.props.timerLeft}</h1>;
+  return <h1>Time left:{props.timerLeft}</h1>;
 };
 
 export default Timer;

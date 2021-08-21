@@ -1,17 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Timer from "./timer";
 
-class Timer extends React.Component {
-  render() {
-    if (this.props.timerLeft == 0) {
-      document.getElementById("end-of-time").play();
-      console.log("hello");
-    }
-    if (this.props.timerLeft == null || this.props.timerLeft == 0)
-      return <div />;
-    return <h1>Time left: {this.props.timerLeft}</h1>;
-  }
-}
+
 class Button extends React.Component {
   startTimer(event) {
     return this.props.startTimer(this.props.time);
@@ -31,12 +22,42 @@ class Button extends React.Component {
     );
   }
 }
+class ButtonPause extends React.Component {
+
+  render() {
+    return (
+      <button
+        type="button"
+        className="btn-default btn"
+        value={this.props.value}
+        onClick={() => {
+          this.props.startTimer(this.props.time);
+        }}
+      >
+     {this.props.value}     
+ </button>
+    );
+  }
+}
 class TimerWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { timerLeft: null, timer: null };
+    this.state = {
+         timerLeft: null,
+         timer: null,
+         paused:true
+       };
     this.startTimer = this.startTimer.bind(this);
+    this.pauseTime = this.pauseTime.bind(this);
+    this.resumeTimer = this.resumeTimer.bind(this)
+
+
+
   }
+  
+
+   
+
   startTimer(timerLeft) {
     clearInterval(this.state.timer);
     let timer = setInterval(() => {
@@ -49,8 +70,33 @@ class TimerWrapper extends React.Component {
     console.log("1: After setInterval");
     return this.setState({ timerLeft: timerLeft, timer: timer });
   }
+  pauseTime(paused){
+    if(this.state.paused==true ){
+      clearInterval(this.state.timer)
+      this.setState({
+        timer: null,
+      })
+      this.setState({paused:!this.state.paused})
+      console.log("mtav")
+
+    }
+  
+    
+  }
+  resumeTimer(){
+    if(this.state.timerLeft > 0  ){
+      this.startTimer(this.state.timerLeft)
+      console.log("stex el")
+      this.setState({paused:!this.state.paused})
+    }
+  }
+
+  
+
 
   render() {
+    const {paused}=this.state
+    let title = this.state.paused ? "Pause" : "Resume"
     return (
       <div className="row-fluid">
         <h2>Timer</h2>
@@ -58,6 +104,16 @@ class TimerWrapper extends React.Component {
           <Button time="5" startTimer={this.startTimer} />
           <Button time="10" startTimer={this.startTimer} />
           <Button time="15" startTimer={this.startTimer} />
+          
+        </div>
+        <div>
+        {this.state.paused == true
+              ?
+              <button onClick={this.pauseTime}>{title}</button>
+              :
+              <button onClick={this.resumeTimer}>{title}</button>
+            }
+
         </div>
         <Timer timerLeft={this.state.timerLeft} />
         <audio id="end-of-time" preload="auto">
